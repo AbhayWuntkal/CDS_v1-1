@@ -1,32 +1,44 @@
 package com.abc.corporateprofile.travelpolicy.service;
 
 import java.util.List;
+import java.util.Optional;
 
-import javax.transaction.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
+import com.abc.corporateprofile.travelpolicy.dto.Departments;
 import com.abc.corporateprofile.travelpolicy.dto.DomesticAirlines;
 import com.abc.corporateprofile.travelpolicy.dto.InternationalAirlines;
-import com.abc.corporateprofile.travelpolicy.repository.DomesticAirlinesRepository;
-import com.abc.corporateprofile.travelpolicy.repository.InternationalAirlinesRepository;
 
-@Service("tpservice")
-@Transactional
-public class TravelPolicyServiceImpl implements TravelPolicyService  {
+
+public interface TravelPolicyServiceImpl {
 	
-	@Autowired
-	DomesticAirlinesRepository domesticAirlinesRepository;
-	public List<DomesticAirlines> listAllDomesticAirlines() {
-		// TODO Auto-generated method stub
-		return domesticAirlinesRepository.findAll();
-	}
+	//List all domestic airline names
+	public List<DomesticAirlines> listAllDomesticAirlines();	
 	
-	@Autowired
-	InternationalAirlinesRepository internationalAirlinesRepository;
-	public List<InternationalAirlines> listAllInternationalAirlines() {
-		// TODO Auto-generated method stub
-		return internationalAirlinesRepository.findAll();
+	//List all international airline names
+	public List<InternationalAirlines> listAllInternationalAirlines();
+
+	
+// Department Master	
+	
+	// Create
+	public void AddDepartment(Departments addDepartment);
+
+	// Retrieve
+	public List<Departments> listAllDepartments();
+	
+	// Update
+	public void UpdateDepartmentById(Integer department_id, String department_name, String department_code, String modified_by, String modified_date);
+
+	//Delete
+	public void deleteDepartmentById(int department_id);
+
+	public static Optional<Departments> UpdateDepartmentById(Long department_id) {
+		return null;
 	}
+
+	public void save(MultipartFile file);
+
+	public List<Departments> getAllDepartments();
+
 }

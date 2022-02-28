@@ -12,10 +12,10 @@ public class InternationalAirlines {
 	@Id
 	@Column(name = "id")
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	public Integer id;
+	private Integer id;
 	
 	@Column(name = "airline_name")
-	public String airline_name;
+	private String airline_name;
 
 	public Integer getId() {
 		return id;
