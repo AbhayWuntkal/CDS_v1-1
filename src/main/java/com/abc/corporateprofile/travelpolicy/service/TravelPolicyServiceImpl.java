@@ -39,6 +39,4 @@ public interface TravelPolicyServiceImpl {
 
 	public void save(MultipartFile file);
 
-	public List<Departments> getAllDepartments();
-
 }

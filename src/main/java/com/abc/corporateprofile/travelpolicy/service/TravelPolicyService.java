@@ -38,6 +38,7 @@ public class TravelPolicyService implements TravelPolicyServiceImpl {
 	@Autowired
 	DepartmentsRepository departmentsRepository;
 
+	@Override
 	public List<Departments> listAllDepartments() {
 		return departmentsRepository.findAll();
 	}
@@ -69,11 +70,6 @@ public class TravelPolicyService implements TravelPolicyServiceImpl {
 		} catch (IOException e) {
 			throw new RuntimeException("Failed to store excel data: " + e.getMessage());
 		}
-	}
-
-	@Override
-	public List<Departments> getAllDepartments() {
-		 return departmentsRepository.findAll();
 	}
 
 }

@@ -10,7 +10,7 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.ss.usermodel.WorkbookFactory;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.abc.corporateprofile.travelpolicy.dto.Departments;
@@ -18,9 +18,7 @@ import com.abc.corporateprofile.travelpolicy.dto.Departments;
 public class ExcelHelper {
 
 	public static String TYPE = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-	static String[] HEADERs = { "Department Name", "Department Code" };
-
-	public static boolean hasExcelFormat(MultipartFile file) {
+	public static boolean isExcelFormat(MultipartFile file) {
 		if (!TYPE.equals(file.getContentType())) {
 			return false;
 		}
@@ -29,7 +27,7 @@ public class ExcelHelper {
 
 	public static List<Departments> excelToDepartments(InputStream is) {
 		try {
-			Workbook workbook = WorkbookFactory.create(is);
+			Workbook workbook = new XSSFWorkbook(is);
 			Sheet sheet = workbook.getSheetAt(0);
 			Iterator<Row> rows = sheet.iterator();
 			List<Departments> departments = new ArrayList<Departments>();
@@ -44,13 +42,16 @@ public class ExcelHelper {
 				Iterator<Cell> cellsInRow = currentRow.iterator();
 				Departments Departments = new Departments();
 				int cellIdx = 0;
+				System.out.println("Inserting contents of excel file into database");
 				while (cellsInRow.hasNext()) {
 					Cell currentCell = cellsInRow.next();
 					switch (cellIdx) {
 					case 0:
+						System.out.println("Department Name: " + currentCell.getStringCellValue());
 						Departments.setDepartment_name(currentCell.getStringCellValue());
 						break;
 					case 1:
+						System.out.println("Department Code: " + currentCell.getStringCellValue());
 						Departments.setDepartment_code(currentCell.getStringCellValue());
 						break;
 					default:
