@@ -1,5 +1,6 @@
 package com.abc.corporateprofile.travelpolicy.controller;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -67,12 +68,21 @@ public class TravelPolicyController {
 
 	// Update Department
 	@PostMapping(value = "/UpdateDepartmentById")
-	public void UpdateDepartmentById(@RequestParam("department_id") Integer department_id,
+	public ResponseEntity<ResponseMessage> UpdateDepartmentById(@RequestParam("department_id") Integer department_id,
 			@RequestParam("department_name") String department_name,
 			@RequestParam("department_code") String department_code,
-			@RequestParam("department_code") String modified_by,
-			@RequestParam("department_code") String modified_date) {
-		tpservice.UpdateDepartmentById(department_id, department_name, department_code, modified_by, modified_date);
+			@RequestParam("modified_by") Integer modified_by,
+			@RequestParam("modified_date") LocalDateTime modified_date) {
+		String message = "";
+		try {
+			tpservice.UpdateDepartmentById(department_id, department_name, department_code, modified_by, modified_date);
+			message = "Updated successfully for department with id: " + department_id ;
+			return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
+			
+		} catch(Exception e){
+			message = "Could not update the desired department info with id: " + department_id + "!";
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseMessage(message));
+		}
 	}
 
 	// Delete Department

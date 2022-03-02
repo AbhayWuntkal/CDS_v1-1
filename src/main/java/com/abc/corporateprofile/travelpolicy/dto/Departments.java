@@ -1,5 +1,7 @@
 package com.abc.corporateprofile.travelpolicy.dto;
 
+import java.time.LocalDateTime;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -8,9 +10,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import com.abc.corporateprofile.dto.Company;
-import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
 public class Departments {
@@ -30,29 +33,22 @@ public class Departments {
 	@Column(name="department_code")
 	private String department_code;
 	
-	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd-MM-yyyy", timezone = "UTC")
-	@Column(name = "created_date")
-	private String created_date;
-	
 	@Column(name = "created_by")
-	private String  created_by ;
+	private Integer created_by ;
 	
-	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd-MM-yyyy", timezone = "UTC")
-	@Column(name = "modified_date")
-	private String  modified_date ;
+	@CreationTimestamp
+	@Column(name = "created_date")
+	private LocalDateTime created_date;
 	
 	@Column(name = "modified_by")
-	private String modified_by;
+	private Integer modified_by;
 	
-	// Methods
-	public Departments() {
-	  }
-
-	  public Departments(String department_name, String department_code) {
-	    this.department_name = department_name;
-	    this.department_code = department_code;
-	  }
-
+	@UpdateTimestamp
+	@Column(name = "modified_date")
+	private LocalDateTime modified_date;
+	
+	// Getters & Setters 
+	
 	public Integer getDepartment_id() {
 		return department_id;
 	}
@@ -85,36 +81,36 @@ public class Departments {
 		this.department_code = department_code;
 	}
 
-	public String getCreated_date() {
-		return created_date;
-	}
-
-	public void setCreated_date(String created_date) {
-		this.created_date = created_date;
-	}
-
-	public String getCreated_by() {
+	public Integer getCreated_by() {
 		return created_by;
 	}
 
-	public void setCreated_by(String created_by) {
+	public void setCreated_by(Integer created_by) {
 		this.created_by = created_by;
 	}
 
-	public String getModified_date() {
-		return modified_date;
-	}
-
-	public void setModified_date(String modified_date) {
-		this.modified_date = modified_date;
-	}
-
-	public String getModified_by() {
+	public Integer getModified_by() {
 		return modified_by;
 	}
 
-	public void setModified_by(String modified_by) {
+	public void setModified_by(Integer modified_by) {
 		this.modified_by = modified_by;
+	}
+
+	public LocalDateTime getCreated_date() {
+		return created_date;
+	}
+
+	public void setCreated_date() {
+		this.created_date = LocalDateTime.now();
+	}
+
+	public LocalDateTime getModified_date() {
+		return modified_date;
+	}
+
+	public void setModified_date() {
+		this.modified_date = LocalDateTime.now();
 	}
 
 	@Override

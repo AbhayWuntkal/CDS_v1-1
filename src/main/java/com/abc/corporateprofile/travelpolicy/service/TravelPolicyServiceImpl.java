@@ -1,42 +1,81 @@
 package com.abc.corporateprofile.travelpolicy.service;
 
+import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
+import javax.transaction.Transactional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.abc.corporateprofile.travelpolicy.dto.Departments;
 import com.abc.corporateprofile.travelpolicy.dto.DomesticAirlines;
 import com.abc.corporateprofile.travelpolicy.dto.InternationalAirlines;
+import com.abc.corporateprofile.travelpolicy.excel.ExcelHelper;
+import com.abc.corporateprofile.travelpolicy.repository.DepartmentsRepository;
+import com.abc.corporateprofile.travelpolicy.repository.DomesticAirlinesRepository;
+import com.abc.corporateprofile.travelpolicy.repository.InternationalAirlinesRepository;
 
+@Service("tpservice")
+@Transactional
+public class TravelPolicyServiceImpl implements TravelPolicyService {
 
-public interface TravelPolicyServiceImpl {
-	
-	//List all domestic airline names
-	public List<DomesticAirlines> listAllDomesticAirlines();	
-	
-	//List all international airline names
-	public List<InternationalAirlines> listAllInternationalAirlines();
+	@Autowired
+	DomesticAirlinesRepository domesticAirlinesRepository;
 
-	
-// Department Master	
-	
-	// Create
-	public void AddDepartment(Departments addDepartment);
-
-	// Retrieve
-	public List<Departments> listAllDepartments();
-	
-	// Update
-	public void UpdateDepartmentById(Integer department_id, String department_name, String department_code, String modified_by, String modified_date);
-
-	//Delete
-	public void deleteDepartmentById(int department_id);
-
-	public static Optional<Departments> UpdateDepartmentById(Long department_id) {
-		return null;
+	public List<DomesticAirlines> listAllDomesticAirlines() {
+		return domesticAirlinesRepository.findAll();
 	}
 
-	public void save(MultipartFile file);
+	@Autowired
+	InternationalAirlinesRepository internationalAirlinesRepository;
+
+	public List<InternationalAirlines> listAllInternationalAirlines() {
+		return internationalAirlinesRepository.findAll();
+	}
+
+// Department Services 
+	
+	@Autowired
+	DepartmentsRepository departmentsRepository;
+
+	// Create Departments
+	@Override
+	public void AddDepartment(Departments addDepartment) {
+		departmentsRepository.save(addDepartment);
+	}
+	
+	// Retrieve Departments
+	@Override
+	public List<Departments> listAllDepartments() {
+		return departmentsRepository.findAll();
+	}
+
+	// Update Departments
+	@Override
+	public void UpdateDepartmentById(Integer department_id, String department_name, String department_code,
+			Integer modified_by, LocalDateTime modified_date) {
+		departmentsRepository.updateDapartmentById(department_id, department_name, department_code, modified_by, modified_date);
+	}
+
+	// Delete Departments
+	@Override
+	public void deleteDepartmentById(int department_id) {
+		departmentsRepository.deleteById(department_id);
+	}
+
+// Excel Sheet
+
+	@Override
+	public void save(MultipartFile file) {
+		try {
+			List<Departments> departments = ExcelHelper.excelToDepartments(file.getInputStream());
+			departmentsRepository.saveAll(departments);
+		} catch (IOException e) {
+			throw new RuntimeException("Failed to store excel data: " + e.getMessage());
+		}
+	}
 
 }

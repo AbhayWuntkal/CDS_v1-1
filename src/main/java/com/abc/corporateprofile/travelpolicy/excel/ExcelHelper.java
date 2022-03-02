@@ -13,6 +13,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.abc.corporateprofile.dto.User_Details;
 import com.abc.corporateprofile.travelpolicy.dto.Departments;
 
 public class ExcelHelper {
@@ -41,6 +42,7 @@ public class ExcelHelper {
 				}
 				Iterator<Cell> cellsInRow = currentRow.iterator();
 				Departments Departments = new Departments();
+				User_Details user = new User_Details();
 				int cellIdx = 0;
 				System.out.println("Inserting contents of excel file into database");
 				while (cellsInRow.hasNext()) {
@@ -53,6 +55,10 @@ public class ExcelHelper {
 					case 1:
 						System.out.println("Department Code: " + currentCell.getStringCellValue());
 						Departments.setDepartment_code(currentCell.getStringCellValue());
+						break;
+					case 2:
+						System.out.println("Created By: " + user.getUserid());
+						Departments.setCreated_by(user.getUserid());
 						break;
 					default:
 						break;
