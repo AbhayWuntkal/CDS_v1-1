@@ -1,25 +1,13 @@
 package com.abc.corporateprofile.travelpolicy.controller;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
-import com.abc.corporateprofile.travelpolicy.dto.Departments;
 import com.abc.corporateprofile.travelpolicy.dto.DomesticAirlines;
 import com.abc.corporateprofile.travelpolicy.dto.InternationalAirlines;
-import com.abc.corporateprofile.travelpolicy.excel.ExcelHelper;
-import com.abc.corporateprofile.travelpolicy.excel.ResponseMessage;
 import com.abc.corporateprofile.travelpolicy.service.TravelPolicyServiceImpl;
 
 @RestController
@@ -42,73 +30,6 @@ public class TravelPolicyController {
 	public List<InternationalAirlines> listAllInternationalAirlines() {
 		// System.out.println(listAllInternationalAirlines());
 		return tpservice.listAllInternationalAirlines();
-	}
-
-// Department Master
-
-	// Create Department
-	@PostMapping(value = "/AddDepartment")
-	public void AddPassport_master(@RequestBody Departments addDepartment) {
-		tpservice.AddDepartment(addDepartment);
-	}
-
-	// Retrieve Department
-	@GetMapping(value = "/listAllDepartments")
-	public ResponseEntity<List<Departments>> listAllDepartments() {
-		try {
-			List<Departments> departments = tpservice.listAllDepartments();
-			if (departments.isEmpty()) {
-				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-			}
-			return new ResponseEntity<>(departments, HttpStatus.OK);
-		} catch (Exception e) {
-			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-	}
-
-	// Update Department
-	@PostMapping(value = "/UpdateDepartmentById")
-	public ResponseEntity<ResponseMessage> UpdateDepartmentById(@RequestParam("department_id") Integer department_id,
-			@RequestParam("department_name") String department_name,
-			@RequestParam("department_code") String department_code,
-			@RequestParam("modified_by") Integer modified_by,
-			@RequestParam("modified_date") LocalDateTime modified_date) {
-		String message = "";
-		try {
-			tpservice.UpdateDepartmentById(department_id, department_name, department_code, modified_by, modified_date);
-			message = "Updated successfully for department with id: " + department_id ;
-			return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
-			
-		} catch(Exception e){
-			message = "Could not update the desired department info with id: " + department_id + "!";
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseMessage(message));
-		}
-	}
-
-	// Delete Department
-	@DeleteMapping("/deleteDepartmentById/{department_id}")
-	private void deletegst(@PathVariable("department_id") int department_id) {
-		tpservice.deleteDepartmentById(department_id);
-	}
-
-// Department excel file upload Master
-
-	@PostMapping("/upload")
-	public ResponseEntity<ResponseMessage> uploadFile(@RequestParam("File") MultipartFile file) {
-		String message = "";
-		if (ExcelHelper.isExcelFormat(file)) {
-			try {
-				tpservice.save(file);
-				message = "Uploaded the file successfully: " + file.getOriginalFilename();
-				return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
-			} catch (Exception e) {
-				message = "Could not upload the file: " + file.getOriginalFilename() + "!";
-				return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(message));
-			}
-		} else {
-			message = file.getOriginalFilename() + " is not an excel file";
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseMessage(message));
-		}
 	}
 
 }

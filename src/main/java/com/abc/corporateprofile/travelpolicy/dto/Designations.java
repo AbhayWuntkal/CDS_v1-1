@@ -18,8 +18,8 @@ import org.hibernate.annotations.UpdateTimestamp;
 import com.abc.corporateprofile.dto.Company;
 
 @Entity
-public class Departments {
-	
+public class Designations {
+
 	@Id
 	@Column(name = "id")
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -28,12 +28,12 @@ public class Departments {
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn
 	private Company company;
+
+	@Column(name="designation_name")
+	private String designation_name;
 	
-	@Column(name="department_name")
-	private String department_name;
-	
-	@Column(name="department_code")
-	private String department_code;
+	@Column(name="designation_code")
+	private String designation_code;
 	
 	@Column(name = "created_by")
 	private Integer created_by;
@@ -50,8 +50,8 @@ public class Departments {
 	@Basic(optional = false)
 	@Column(name = "modified_date", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
 	private LocalDateTime modified_date;
-	
-	// Getters & Setters 
+
+	//Getters & Setters
 	
 	public Integer getId() {
 		return id;
@@ -69,20 +69,20 @@ public class Departments {
 		this.company = company;
 	}
 
-	public String getDepartment_name() {
-		return department_name;
+	public String getDesignation_name() {
+		return designation_name;
 	}
 
-	public void setDepartment_name(String department_name) {
-		this.department_name = department_name;
+	public void setDesignation_name(String designation_name) {
+		this.designation_name = designation_name;
 	}
 
-	public String getDepartment_code() {
-		return department_code;
+	public String getDesignation_code() {
+		return designation_code;
 	}
 
-	public void setDepartment_code(String department_code) {
-		this.department_code = department_code;
+	public void setDesignation_code(String designation_code) {
+		this.designation_code = designation_code;
 	}
 
 	public Integer getCreated_by() {
@@ -93,6 +93,14 @@ public class Departments {
 		this.created_by = created_by;
 	}
 
+	public LocalDateTime getCreated_date() {
+		return created_date;
+	}
+
+	public void setCreated_date(LocalDateTime created_date) {
+		this.created_date = created_date;
+	}
+
 	public Integer getModified_by() {
 		return modified_by;
 	}
@@ -101,30 +109,22 @@ public class Departments {
 		this.modified_by = modified_by;
 	}
 
-	public LocalDateTime getCreated_date() {
-		return created_date;
-	}
-
-	public void setCreated_date() {
-		this.created_date = LocalDateTime.now();
-	}
-
 	public LocalDateTime getModified_date() {
 		return modified_date;
 	}
 
-	public void setModified_date() {
-		this.modified_date = LocalDateTime.now();
+	public void setModified_date(LocalDateTime modified_date) {
+		this.modified_date = modified_date;
 	}
 
 	@Override
 	public String toString() {
-		return "Departments [id=" + id + ", company=" + company + ", department_name=" + department_name
-				+ ", department_code=" + department_code + ", created_by=" + created_by + ", created_date="
+		return "Designations [id=" + id + ", company=" + company + ", designation_name=" + designation_name
+				+ ", designation_code=" + designation_code + ", created_by=" + created_by + ", created_date="
 				+ created_date + ", modified_by=" + modified_by + ", modified_date=" + modified_date + ", getId()="
-				+ getId() + ", getCompany()=" + getCompany() + ", getDepartment_name()=" + getDepartment_name()
-				+ ", getDepartment_code()=" + getDepartment_code() + ", getCreated_by()=" + getCreated_by()
-				+ ", getModified_by()=" + getModified_by() + ", getCreated_date()=" + getCreated_date()
+				+ getId() + ", getCompany()=" + getCompany() + ", getDesignation_name()=" + getDesignation_name()
+				+ ", getDesignation_code()=" + getDesignation_code() + ", getCreated_by()=" + getCreated_by()
+				+ ", getCreated_date()=" + getCreated_date() + ", getModified_by()=" + getModified_by()
 				+ ", getModified_date()=" + getModified_date() + ", getClass()=" + getClass() + ", hashCode()="
 				+ hashCode() + ", toString()=" + super.toString() + "]";
 	}

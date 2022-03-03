@@ -1,12 +1,10 @@
 package com.abc.corporateprofile.travelpolicy.service;
 
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
-
 import org.springframework.web.multipart.MultipartFile;
 
 import com.abc.corporateprofile.travelpolicy.dto.Departments;
+import com.abc.corporateprofile.travelpolicy.dto.Designations;
 import com.abc.corporateprofile.travelpolicy.dto.DomesticAirlines;
 import com.abc.corporateprofile.travelpolicy.dto.InternationalAirlines;
 
@@ -23,21 +21,34 @@ public interface TravelPolicyService {
 // Department Master	
 	
 	// Create
-	public void AddDepartment(Departments addDepartment);
+	public void addDepartment(Departments addDepartment);
 
 	// Retrieve
 	public List<Departments> listAllDepartments();
 	
 	// Update
-	public void UpdateDepartmentById(Integer department_id, String department_name, String department_code, Integer modified_by, LocalDateTime modified_date);
+	public void updateDepartmentById(Integer id, String department_name, String department_code, Integer modified_by);
 
-	//Delete
-	public void deleteDepartmentById(int department_id);
+	// Delete
+	public void deleteDepartmentById(int id);
 
-	public static Optional<Departments> UpdateDepartmentById(Long department_id) {
-		return null;
-	}
+	// Master file to save excel sheet
+	public void saveDepartments(MultipartFile file);
+	
+// Department Master	
 
-	public void save(MultipartFile file);
+	// Create
+	public void addDesignation(Designations addDesignation);
 
+	// Retrieve
+	public List<Designations> listAllDesignations();
+	
+	// Update
+	public void updateDesignationById(Integer id, String designation_name, String designation_code, Integer modified_by);
+
+	// Delete
+	public void deleteDesignationById(int id);
+
+	// Master file to save excel sheet
+	public void saveDesignations(MultipartFile file);
 }
