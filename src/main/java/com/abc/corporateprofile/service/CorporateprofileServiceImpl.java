@@ -160,11 +160,7 @@ public class CorporateprofileServiceImpl implements ICorporateprofileService {
 		return mya;
 	}
 
-	@Override
-	public List<GST_Details> getGSTDetails(Integer userid) {
-		// TODO Auto-generated method stub
-		return cdsrepository.getGSTDetails(userid);
-	}
+	
 
 	@Override
 	public List<GST_Details> gstDetailsByName(String user_name) {
@@ -510,6 +506,24 @@ public class CorporateprofileServiceImpl implements ICorporateprofileService {
 			String email_id, String phone_number) {
 		// TODO Auto-generated method stub
 		return gstrepository.searchUsers(userid, fname, user_type, status, email_id, phone_number);
+	}
+
+	@Override
+	public List<GST_Details> getGSTDetails(String user_email) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void deletepassport(int id) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void deletePassengerConfig(int id) {
+		// TODO Auto-generated method stub
+		
 	}
 
 //	@Override

@@ -9,12 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.abc.corporateprofile.travelpolicy.dto.Departments;
 import com.abc.corporateprofile.travelpolicy.dto.Designations;
 import com.abc.corporateprofile.travelpolicy.dto.DomesticAirlines;
 import com.abc.corporateprofile.travelpolicy.dto.InternationalAirlines;
 import com.abc.corporateprofile.travelpolicy.excel.ExcelHelper;
-import com.abc.corporateprofile.travelpolicy.repository.DepartmentsRepository;
 import com.abc.corporateprofile.travelpolicy.repository.DesignationsRepository;
 import com.abc.corporateprofile.travelpolicy.repository.DomesticAirlinesRepository;
 import com.abc.corporateprofile.travelpolicy.repository.InternationalAirlinesRepository;
@@ -32,9 +30,6 @@ public class TravelPolicyServiceImpl implements TravelPolicyService {
 	InternationalAirlinesRepository internationalAirlinesRepository;
 	
 	@Autowired
-	DepartmentsRepository departmentsRepository;
-	
-	@Autowired
 	DesignationsRepository designationsRepository;
 	
 	
@@ -46,45 +41,6 @@ public class TravelPolicyServiceImpl implements TravelPolicyService {
 
 	public List<InternationalAirlines> listAllInternationalAirlines() {
 		return internationalAirlinesRepository.findAll();
-	}
-
-	
-// Department Services 
-
-	// Create Departments
-	@Override
-	public void addDepartment(Departments addDepartment) {
-		departmentsRepository.save(addDepartment);
-	}
-
-	// Retrieve Departments
-	@Override
-	public List<Departments> listAllDepartments() {
-		return departmentsRepository.findAll();
-	}
-
-	// Update Departments
-	@Override
-	public void updateDepartmentById(Integer department_id, String department_name, String department_code,
-			Integer modified_by) {
-		departmentsRepository.updateDapartmentById(department_id, department_name, department_code, modified_by);
-	}
-
-	// Delete Departments
-	@Override
-	public void deleteDepartmentById(int department_id) {
-		departmentsRepository.deleteById(department_id);
-	}
-
-	// Save Excel Sheet
-	@Override
-	public void saveDepartments(MultipartFile file) {
-		try {
-			List<Departments> departments = ExcelHelper.excelToDepartments(file.getInputStream());
-			departmentsRepository.saveAll(departments);
-		} catch (IOException e) {
-			throw new RuntimeException("Failed to store excel data: " + e.getMessage());
-		}
 	}
 
 	
@@ -104,9 +60,8 @@ public class TravelPolicyServiceImpl implements TravelPolicyService {
 
 	// Update Departments
 	@Override
-	public void updateDesignationById(Integer id, String designations_name, String designations_code,
-			Integer modified_by) {
-		designationsRepository.updateDesignationById(id, designations_name, designations_code, modified_by);
+	public void updateDesignationById(Integer id, String designations_name, String department_name, Integer modified_by) {
+		designationsRepository.updateDesignationById(id, designations_name, department_name, modified_by);
 	}
 
 	// Delete Departments

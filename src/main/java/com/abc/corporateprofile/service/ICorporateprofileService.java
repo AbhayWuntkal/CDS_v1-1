@@ -76,7 +76,7 @@ public interface ICorporateprofileService {
 
 	public List<Bank_Details> getBankDetailsById(Integer userid);
 
-	public List<GST_Details> getGSTDetails(Integer userid);
+	public List<GST_Details> getGSTDetails(String user_email);
 
 	public List<User_Details> searchUsers(Integer userid, String fname, String user_type, String status,
 			String email_id, String phone_number);
@@ -152,5 +152,9 @@ public interface ICorporateprofileService {
 
 	public void UpdateinsurancebybyUid(Integer userid, String insurer, String region, Integer policy_no,
 			String start_date, String end_date, String nominee);
+
+	public void deletepassport(int id);
+
+	public void deletePassengerConfig(int id);
 
 }

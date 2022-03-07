@@ -1,6 +1,7 @@
 package com.abc.corporateprofile.travelpolicy.dto;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -10,18 +11,21 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import com.abc.corporateprofile.dto.Company;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-@Table(name = "designation_master")
-public class Designations {
+@Table(name = "band_master")
+public class BandMaster {
 
 	@Id
 	@Column(name = "id")
@@ -33,18 +37,14 @@ public class Designations {
 	@JoinColumn
 	private Company company;
 
-	// creating a bridge table named band_details and adding a many-to-one relationship 
-	@ManyToOne
-	@JoinTable(name = "band_details", joinColumns = {
-			@JoinColumn(name = "designation_master_id") }, inverseJoinColumns = {
-					@JoinColumn(name = "band_master_id") })
-	private BandMaster band_master;
+	// creating a bridge table named band_details and adding a one-to-many relationship 
+	@OneToMany(mappedBy = "band_master")
+	@Fetch(FetchMode.JOIN)
+	@JsonIgnore
+	private Collection<Designations> designation_master;
 
-	@Column(name = "designation_name")
-	private String designation_name;
-
-	@Column(name = "department_name")
-	private String department_name;
+	@Column(name = "band_name")
+	private String band_name;
 
 	@Column(name = "created_by")
 	private Integer created_by;
@@ -80,28 +80,20 @@ public class Designations {
 		this.company = company;
 	}
 
-	public BandMaster getBand_master() {
-		return band_master;
+	public Collection<Designations> getDesignation_master() {
+		return designation_master;
 	}
 
-	public void setBand_master(BandMaster band_master) {
-		this.band_master = band_master;
+	public void setDesignation_master(Collection<Designations> designation_master) {
+		this.designation_master = designation_master;
 	}
 
-	public String getDesignation_name() {
-		return designation_name;
+	public String getBand_name() {
+		return band_name;
 	}
 
-	public void setDesignation_name(String designation_name) {
-		this.designation_name = designation_name;
-	}
-
-	public String getDepartment_name() {
-		return department_name;
-	}
-
-	public void setDepartment_name(String department_name) {
-		this.department_name = department_name;
+	public void setBand_name(String band_name) {
+		this.band_name = band_name;
 	}
 
 	public Integer getCreated_by() {
@@ -138,12 +130,11 @@ public class Designations {
 
 	@Override
 	public String toString() {
-		return "Designations [id=" + id + ", company=" + company + ", band_master=" + band_master
-				+ ", designation_name=" + designation_name + ", department_name=" + department_name + ", created_by="
-				+ created_by + ", created_date=" + created_date + ", modified_by=" + modified_by + ", modified_date="
-				+ modified_date + ", getId()=" + getId() + ", getCompany()=" + getCompany() + ", getBand_master()="
-				+ getBand_master() + ", getDesignation_name()=" + getDesignation_name() + ", getDepartment_name()="
-				+ getDepartment_name() + ", getCreated_by()=" + getCreated_by() + ", getCreated_date()="
+		return "BandMaster [id=" + id + ", company=" + company + ", designation_master=" + designation_master
+				+ ", band_name=" + band_name + ", created_by=" + created_by + ", created_date=" + created_date
+				+ ", modified_by=" + modified_by + ", modified_date=" + modified_date + ", getId()=" + getId()
+				+ ", getCompany()=" + getCompany() + ", getDesignation_master()=" + getDesignation_master()
+				+ ", getBand_name()=" + getBand_name() + ", getCreated_by()=" + getCreated_by() + ", getCreated_date()="
 				+ getCreated_date() + ", getModified_by()=" + getModified_by() + ", getModified_date()="
 				+ getModified_date() + ", getClass()=" + getClass() + ", hashCode()=" + hashCode() + ", toString()="
 				+ super.toString() + "]";

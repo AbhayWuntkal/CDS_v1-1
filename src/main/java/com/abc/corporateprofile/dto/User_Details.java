@@ -15,6 +15,7 @@ public class User_Details {
 	@Column(name="userid")
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer userid  ;
+	
 	private Integer company_id;
 	@Column(name="company_branchid")
 	private Integer company_branchid ;

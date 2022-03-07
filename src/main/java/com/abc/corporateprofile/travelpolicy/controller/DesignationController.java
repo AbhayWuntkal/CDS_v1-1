@@ -55,11 +55,11 @@ public class DesignationController {
 	@PostMapping(value = "/UpdateDesignationById")
 	public ResponseEntity<ResponseMessage> UpdateDesignationById(@RequestParam("id") Integer id,
 			@RequestParam("designation_name") String designation_name,
-			@RequestParam("designation_code") String designation_code,
+			@RequestParam("department_name") String department_name,
 			@RequestParam("modified_by") Integer modified_by) {
 		String message = "";
 		try {
-			tpservice.updateDesignationById(id, designation_name, designation_code, modified_by);
+			tpservice.updateDesignationById(id, designation_name, department_name, modified_by);
 			message = "Updated successfully for designation with id: " + id;
 			System.out.println("Updated successfully for designation with id: " + id);
 			return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));

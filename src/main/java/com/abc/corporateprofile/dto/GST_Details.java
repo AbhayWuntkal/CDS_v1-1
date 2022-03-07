@@ -1,23 +1,31 @@
 package com.abc.corporateprofile.dto;
 
+import java.time.LocalDateTime;
+
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
 public class GST_Details {
 	
 	@Id
-	@Column(name = "sno")
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Integer sno ;
-	
 	@Column(name = "id")
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id ;
+	
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn
+	private User_Details user ;
 	
 	@Column(name = "gst_number")
 	private String gst_number;
@@ -37,24 +45,18 @@ public class GST_Details {
 	@Column(name = "gst_state_code")
 	private String gst_state_code ;
 	
-	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd-MM-yyyy", timezone = "UTC")
-	@Column(name = "created_date")
-	private String created_date;
+	@CreationTimestamp
+	@Basic(optional = false)
+	@Column(name = "created_date", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+	private LocalDateTime created_date;
 	
-	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd-MM-yyyy", timezone = "UTC")
-	@Column(name = "modified_date")
-	private String  modified_date ;
+	@UpdateTimestamp
+	@Basic(optional = false)
+	@Column(name = "modified_date", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
+	private LocalDateTime modified_date;
 	
 	@Column(name = "modified_by")
 	private String modified_by;
-
-	public Integer getSno() {
-		return sno;
-	}
-
-	public void setSno(Integer sno) {
-		this.sno = sno;
-	}
 
 	public Integer getId() {
 		return id;
@@ -62,6 +64,14 @@ public class GST_Details {
 
 	public void setId(Integer id) {
 		this.id = id;
+	}
+
+	public User_Details getUser() {
+		return user;
+	}
+
+	public void setUser(User_Details user) {
+		this.user = user;
 	}
 
 	public String getGst_number() {
@@ -112,19 +122,19 @@ public class GST_Details {
 		this.gst_state_code = gst_state_code;
 	}
 
-	public String getCreated_date() {
+	public LocalDateTime getCreated_date() {
 		return created_date;
 	}
 
-	public void setCreated_date(String created_date) {
+	public void setCreated_date(LocalDateTime created_date) {
 		this.created_date = created_date;
 	}
 
-	public String getModified_date() {
+	public LocalDateTime getModified_date() {
 		return modified_date;
 	}
 
-	public void setModified_date(String modified_date) {
+	public void setModified_date(LocalDateTime modified_date) {
 		this.modified_date = modified_date;
 	}
 
@@ -138,22 +148,16 @@ public class GST_Details {
 
 	@Override
 	public String toString() {
-		return "GST_Details [sno=" + sno + ", id=" + id + ", gst_number=" + gst_number + ", gst_email=" + gst_email
+		return "GST_Details [id=" + id + ", user=" + user + ", gst_number=" + gst_number + ", gst_email=" + gst_email
 				+ ", gst_holder_name=" + gst_holder_name + ", gst_phone_number=" + gst_phone_number + ", gst_address="
 				+ gst_address + ", gst_state_code=" + gst_state_code + ", created_date=" + created_date
-				+ ", modified_date=" + modified_date + ", modified_by=" + modified_by + ", getSno()=" + getSno()
-				+ ", getId()=" + getId() + ", getGst_number()=" + getGst_number() + ", getGst_email()=" + getGst_email()
-				+ ", getGst_holder_name()=" + getGst_holder_name() + ", getGst_phone_number()=" + getGst_phone_number()
-				+ ", getGst_address()=" + getGst_address() + ", getGst_state_code()=" + getGst_state_code()
-				+ ", getCreated_date()=" + getCreated_date() + ", getModified_date()=" + getModified_date()
-				+ ", getModified_by()=" + getModified_by() + ", getClass()=" + getClass() + ", hashCode()=" + hashCode()
-				+ ", toString()=" + super.toString() + "]";
+				+ ", modified_date=" + modified_date + ", modified_by=" + modified_by + ", getId()=" + getId()
+				+ ", getUser()=" + getUser() + ", getGst_number()=" + getGst_number() + ", getGst_email()="
+				+ getGst_email() + ", getGst_holder_name()=" + getGst_holder_name() + ", getGst_phone_number()="
+				+ getGst_phone_number() + ", getGst_address()=" + getGst_address() + ", getGst_state_code()="
+				+ getGst_state_code() + ", getCreated_date()=" + getCreated_date() + ", getModified_date()="
+				+ getModified_date() + ", getModified_by()=" + getModified_by() + ", getClass()=" + getClass()
+				+ ", hashCode()=" + hashCode() + ", toString()=" + super.toString() + "]";
 	}
-
 	
-	
-	
-	
-	
-
 }
